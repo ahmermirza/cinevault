@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef, useContext } from "react";
+import { ThemeContext } from './context/ThemeContext';
 
 function PasswordGenerator() {
   const [password, setPassword] = useState("");
@@ -7,6 +8,8 @@ function PasswordGenerator() {
   const [lowercaseAllowed, setLowercaseAllowed] = useState(true);
   const [numbersAllowed, setNumbersAllowed] = useState(true);
   const [symbolsAllowed, setSymbolsAllowed] = useState(true);
+
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const passwordInputRef = useRef(null);
 
@@ -87,8 +90,12 @@ function PasswordGenerator() {
   }, [createPassword]);
 
   return (
-    <div>
-      <h1>Password Generator</h1>
+    <div style={{
+        padding: '130px',
+    }}>
+      <h1 style={{
+        color: theme === 'dark' ? '#fff' : '#000'
+      }}>Password Generator</h1>
       <input
         type="text"
         id="password"
@@ -99,8 +106,8 @@ function PasswordGenerator() {
       <button
         type="button"
         style={{
-          backgroundColor: "black",
-          color: "white",
+          backgroundColor: theme === 'light' ? '#333' : '#fff',
+          color: theme === 'light' ? '#fff' : '#333',
           border: "0px",
           borderRadius: "15%",
           padding: "7px",
@@ -121,7 +128,9 @@ function PasswordGenerator() {
             setLength(parseInt(e.target.value));
           }}
         />{" "}
-        Length ({length}) <br />
+        <label htmlFor="length" style={{
+            color: theme === 'dark' ? '#fff' : '#000'
+        }}>Length ({length})</label> <br />
         <input
           type="checkbox"
           name="uppercase"
@@ -130,7 +139,9 @@ function PasswordGenerator() {
             setUppercaseAllowed((prev) => !prev);
           }}
         />{" "}
-        Uppercase <br />
+        <label htmlFor="uppercase" style={{
+            color: theme === 'dark' ? '#fff' : '#000'
+        }}>Uppercase</label> <br />
         <input
           type="checkbox"
           name="lowercase"
@@ -139,7 +150,9 @@ function PasswordGenerator() {
             setLowercaseAllowed((prev) => !prev);
           }}
         />{" "}
-        Lowercase <br />
+        <label htmlFor="lowercase" style={{
+            color: theme === 'dark' ? '#fff' : '#000'
+        }}>Lowercase</label> <br />
         <input
           type="checkbox"
           name="numbers"
@@ -148,7 +161,9 @@ function PasswordGenerator() {
             setNumbersAllowed((prev) => !prev);
           }}
         />{" "}
-        Numbers <br />
+        <label htmlFor="numbers" style={{
+            color: theme === 'dark' ? '#fff' : '#000'
+        }}>Numbers</label> <br />
         <input
           type="checkbox"
           name="symbols"
@@ -157,8 +172,24 @@ function PasswordGenerator() {
             setSymbolsAllowed((prev) => !prev);
           }}
         />{" "}
-        Symbols <br />
+        <label htmlFor="symbols" style={{
+            color: theme === 'dark' ? '#fff' : '#000'
+        }}>Symbols</label> <br />
       </div>
+      <br />
+      <button 
+      onClick={toggleTheme}
+      style={{
+        backgroundColor: theme === 'light' ? '#fff' : '#333',
+        color: theme === 'light' ? '#000' : '#fff',
+        padding: '10px 20px',
+        border: '1px solid #ccc',
+        cursor: 'pointer',
+        borderRadius: '15px',
+      }}
+    >
+      Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+    </button>
     </div>
   );
 }
